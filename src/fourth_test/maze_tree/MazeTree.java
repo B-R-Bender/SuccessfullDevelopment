@@ -45,7 +45,6 @@ public class MazeTree {
             y = newCell.positionY = modifyY(orientation, y);
 //                    условие смежных коридоров defineAdjacentPassages(x, y, MazeConstants.HORIZONTAL_PLUS);
             if (!isPanelUsed(x, y) & defineAdjacentPassages(x, y, orientation)) {
-                connectCells(newCell, orientation, x, y);
                 newCell.cell = new Path(x + " " + y, x, y, newCell);
                 setPanelUsed(x, y);
                 generateNext(newCell, orientation, longestPath);
@@ -53,6 +52,8 @@ public class MazeTree {
                 newCell = null;
             }
 //            mazeGui.getMainMazePanel().repaint();
+//            here insert method to check for connections
+            connectCells(newCell, orientation, x, y);
             return newCell;
         }
         return null;
@@ -61,9 +62,8 @@ public class MazeTree {
     private void connectCells(MazeTree newCell, String orientation, int x, int y) {
         x = modifyX(orientation, x);
         y = modifyY(orientation, y);
-        if (mazeGui.getPanels()[x][y].isUsed() && mazeGui.getPanels()[x][y].getComponent(0) instanceof Path) {
-            newCell.centralCell = ((Path) mazeGui.getPanels()[x][y].getComponent(0)).getAssociatedMazeTreeCell();
-        }
+
+
     }
 
     private void generateNext(MazeTree baseCell, String orientation, int longestPath) throws InterruptedException {
