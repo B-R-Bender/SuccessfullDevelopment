@@ -2,7 +2,7 @@ package fourth_test.maze_cells;
 
 import fourth_test.constants.MazeConstants;
 import fourth_test.maze_tree.MazeTree;
-import fourth_test.gui.MazeGui;
+import fourth_test.gui.*;
 
 import javax.swing.*;
 import java.awt.*;

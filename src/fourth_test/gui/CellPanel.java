@@ -1,5 +1,7 @@
 package fourth_test.gui;
 
+import fourth_test.constants.MazeConstants;
+
 import javax.swing.*;
 
 /**
@@ -7,6 +9,7 @@ import javax.swing.*;
  */
 public class CellPanel extends JPanel {
     boolean used;
+    String typeOfCell;
 
     public boolean isUsed() {
         return used;
@@ -16,5 +19,13 @@ public class CellPanel extends JPanel {
         this.used = used;
 //        this.setLayout(new BorderLayout());
 //        this.setBackground(Color.CYAN);
+    }
+
+    public String getTypeOfCell() {
+        return typeOfCell;
+    }
+
+    public void setTypeOfCell(String typeOfCell) {
+        this.typeOfCell += typeOfCell;
     }
 }

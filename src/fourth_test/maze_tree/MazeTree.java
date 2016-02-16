@@ -63,7 +63,9 @@ public class MazeTree {
         x = modifyX(orientation, x);
         y = modifyY(orientation, y);
 
+        if (isPanelUsed(x, y)) {
 
+        }
     }
 
     private void generateNext(MazeTree baseCell, String orientation, int longestPath) throws InterruptedException {

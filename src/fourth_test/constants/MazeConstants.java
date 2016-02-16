@@ -14,4 +14,8 @@ public class MazeConstants {
     public static final String HORIZONTAL_MINUS = "horizontal-";
     public static final String UP = "up";
     public static final String DOWN = "down";
+    public static final String PATH_TYPE_OF_CELL = "path";
+    public static final String WALL_TYPE_OF_CELL = "wall";
+    public static final String EMPTY_TYPE_OF_CELL = "";
+
 }
