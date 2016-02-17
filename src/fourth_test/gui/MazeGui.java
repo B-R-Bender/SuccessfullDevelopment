@@ -44,22 +44,25 @@ public class MazeGui {
                 panels[row][col] = element;
                 element.setPreferredSize(new Dimension(10, 25));
                 element.setLayout(new BorderLayout());
+                element.setTypeOfCell(MazeConstants.ELSE_TYPE_OF_CELL);
                 mainMazePanel.add(element);
                 if (row == 0 || col == 0 || row == rows - 1 || col == cols - 1) {
                     element.setUsed(true);
                     element.setLayout(new BorderLayout());
                     element.add(new Wall("*"), BorderLayout.CENTER);
+                    element.setTypeOfCell(MazeConstants.ELSE_TYPE_OF_CELL);
                 }
             }
         }
     }
 
-    public void setMaze (MazeTree tree) throws InterruptedException {
+    public MazeTree setMaze (MazeTree tree) throws InterruptedException {
         tree.setGui(this);
         tree = tree.createMaze(tree, 150, MazeConstants.UP);
-        tree.printMaze(tree);
+//        tree.printMaze(tree);
         this.fillWalls();
         this.mainMazePanel.updateUI();
+        return tree;
     }
 
     public CellPanel[][] getPanels() {

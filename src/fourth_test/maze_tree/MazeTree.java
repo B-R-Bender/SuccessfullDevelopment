@@ -1,6 +1,7 @@
 package fourth_test.maze_tree;
 
 import fourth_test.constants.MazeConstants;
+import fourth_test.gui.CellPanel;
 import fourth_test.maze_cells.Wall;
 import fourth_test.gui.MazeGui;
 import fourth_test.maze_cells.Path;
@@ -47,6 +48,7 @@ public class MazeTree {
             if (!isPanelUsed(x, y) & defineAdjacentPassages(x, y, orientation)) {
                 newCell.cell = new Path(x + " " + y, x, y, newCell);
                 setPanelUsed(x, y);
+//                System.out.println(x + " " + y);
                 generateNext(newCell, orientation, longestPath);
             } else {
                 newCell = null;
@@ -62,10 +64,26 @@ public class MazeTree {
     private void connectCells(MazeTree newCell, String orientation, int x, int y) {
         x = modifyX(orientation, x);
         y = modifyY(orientation, y);
+        CellPanel tempPanel = mazeGui.getPanels()[x][y];
 
-        if (isPanelUsed(x, y)) {
-
+        if (newCell != null && tempPanel.isUsed() && tempPanel.isPath()) {
+            MazeTree temp = ((Path) tempPanel.getComponent(0)).getAssociatedMazeTreeCell();
+            newCell.centralCell = temp;
+//            не правильное условие, координаты нужно брать не у элементов дерева
+            if (temp.leftCell != null && temp.leftCell.getPositionX() == x && temp.leftCell.getPositionY() == y) {
+                temp.leftCell = newCell;
+            }
+            if (temp.parentCell != null && temp.parentCell.getPositionX() == x && temp.parentCell.getPositionY() == y) {
+                temp.parentCell = newCell;
+            }
+            if (temp.rightCell != null && temp.rightCell.getPositionX() == x && temp.rightCell.getPositionY() == y) {
+                temp.rightCell = newCell;
+            }
         }
+    }
+
+    private boolean isPanelPath(int x, int y) {
+        return mazeGui.getPanels()[x][y].isPath();
     }
 
     private void generateNext(MazeTree baseCell, String orientation, int longestPath) throws InterruptedException {

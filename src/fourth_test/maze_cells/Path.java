@@ -23,8 +23,9 @@ public class Path extends JButton {
     public Path(String name, int x, int y, MazeTree treeCell) {
 //        super(name);
         associatedMazeTreeCell = treeCell;
-        JPanel tempPanel = mazeGui.getPanels()[x][y];
+        CellPanel tempPanel = mazeGui.getPanels()[x][y];
 //        tempPanel.setLayout(new BorderLayout());
+        tempPanel.setTypeOfCell(MazeConstants.PATH_TYPE_OF_CELL);
         tempPanel.add(this, BorderLayout.CENTER);
         this.setBackground(Color.CYAN);
         tempPanel.setBackground(MazeConstants.PATH_COLOR);

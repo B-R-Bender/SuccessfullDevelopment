@@ -9,7 +9,7 @@ import javax.swing.*;
  */
 public class CellPanel extends JPanel {
     boolean used;
-    String typeOfCell;
+    boolean typeOfCell;
 
     public boolean isUsed() {
         return used;
@@ -21,11 +21,11 @@ public class CellPanel extends JPanel {
 //        this.setBackground(Color.CYAN);
     }
 
-    public String getTypeOfCell() {
+    public boolean isPath() {
         return typeOfCell;
     }
 
-    public void setTypeOfCell(String typeOfCell) {
-        this.typeOfCell += typeOfCell;
+    public void setTypeOfCell(boolean typeOfCell) {
+        this.typeOfCell = typeOfCell;
     }
 }

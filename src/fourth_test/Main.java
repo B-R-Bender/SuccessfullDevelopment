@@ -11,7 +11,9 @@ public class Main {
         try {
             MazeGui gui = new MazeGui(50, 50);
             MazeTree newMaze = new MazeTree(null, null, null, null, 4, 0);
-            gui.setMaze(newMaze);
+            newMaze = gui.setMaze(newMaze);
+            System.out.println("stop1");
+            System.out.println("stop2");
         } catch (InterruptedException ex) {
             System.out.println(ex.getMessage());
         }
