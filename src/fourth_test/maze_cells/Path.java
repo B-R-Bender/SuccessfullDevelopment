@@ -35,4 +35,8 @@ public class Path extends JButton {
     public MazeTree getAssociatedMazeTreeCell() {
         return associatedMazeTreeCell;
     }
+
+    public void setAssociatedMazeTreeCell(MazeTree associatedMazeTreeCell) {
+        this.associatedMazeTreeCell = associatedMazeTreeCell;
+    }
 }

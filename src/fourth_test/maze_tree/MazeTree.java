@@ -20,6 +20,8 @@ public class MazeTree {
 
     int positionX, positionY;
 
+    String nodeOrientation;
+
     static MazeGui mazeGui;
 
     Path cell;
@@ -39,8 +41,9 @@ public class MazeTree {
         int x = enter.positionX;
         int y = enter.positionY;
         if (longestPath >= 0) {
-            Thread.sleep(20);
+            Thread.sleep(10);
             MazeTree newCell = new MazeTree(enter, null, null, null, 0, 0);
+            newCell.nodeOrientation = orientation;
 
             x = newCell.positionX = modifyX(orientation, x);
             y = newCell.positionY = modifyY(orientation, y);
@@ -70,15 +73,33 @@ public class MazeTree {
             MazeTree temp = ((Path) tempPanel.getComponent(0)).getAssociatedMazeTreeCell();
             newCell.centralCell = temp;
 //            не правильное условие, координаты нужно брать не у элементов дерева
-            if (temp.leftCell != null && temp.leftCell.getPositionX() == x && temp.leftCell.getPositionY() == y) {
-                temp.leftCell = newCell;
+
+//            String left, right;
+//            left = right = "";
+
+            switch (temp.nodeOrientation) {
+                case MazeConstants.HORIZONTAL_PLUS:
+                    if (temp.positionY + 1 == newCell.positionY) temp.rightCell = newCell;
+                    if (temp.positionY - 1 == newCell.positionY) temp.leftCell = newCell;
+                    if (temp.positionX + 1 == newCell.positionX) temp.centralCell = newCell;
+                    break;
+                case MazeConstants.HORIZONTAL_MINUS:
+                    if (temp.positionY + 1 == newCell.positionY) temp.leftCell = newCell;
+                    if (temp.positionY - 1 == newCell.positionY) temp.rightCell = newCell;
+                    if (temp.positionX - 1 == newCell.positionX) temp.centralCell = newCell;
+                    break;
+                case MazeConstants.UP:
+                    if (temp.positionX + 1 == newCell.positionX) temp.rightCell = newCell;
+                    if (temp.positionX - 1 == newCell.positionX) temp.leftCell = newCell;
+                    if (temp.positionY + 1 == newCell.positionY) temp.centralCell = newCell;
+                    break;
+                case MazeConstants.DOWN:
+                    if (temp.positionX + 1 == newCell.positionX) temp.leftCell = newCell;
+                    if (temp.positionX - 1 == newCell.positionX) temp.rightCell = newCell;
+                    if (temp.positionY - 1 == newCell.positionY) temp.centralCell = newCell;
+                    break;
             }
-            if (temp.parentCell != null && temp.parentCell.getPositionX() == x && temp.parentCell.getPositionY() == y) {
-                temp.parentCell = newCell;
-            }
-            if (temp.rightCell != null && temp.rightCell.getPositionX() == x && temp.rightCell.getPositionY() == y) {
-                temp.rightCell = newCell;
-            }
+//            ((Path) tempPanel.getComponent(0)).setAssociatedMazeTreeCell(temp);
         }
     }
 
