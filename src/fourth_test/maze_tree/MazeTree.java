@@ -21,6 +21,8 @@ public class MazeTree {
     int positionX, positionY;
 
     String nodeOrientation;
+    boolean visited;
+    int label;
 
     static MazeGui mazeGui;
 
@@ -34,6 +36,7 @@ public class MazeTree {
         this.rightCell = rightCell;
         this.positionX = positionX;
         this.positionY = positionY;
+        label = Integer.MAX_VALUE;
     }
 
     public MazeTree createMaze (MazeTree enter, int longestPath, String orientation) throws InterruptedException {
@@ -69,7 +72,8 @@ public class MazeTree {
         y = modifyY(orientation, y);
         CellPanel tempPanel = mazeGui.getPanels()[x][y];
 
-        if (newCell != null && tempPanel.isUsed() && tempPanel.isPath()) {
+        if (newCell != null && tempPanel.isUsed() && tempPanel.isPath()
+                && ((Path) tempPanel.getComponent(0)).getAssociatedMazeTreeCell().parentCell != newCell) {
             MazeTree temp = ((Path) tempPanel.getComponent(0)).getAssociatedMazeTreeCell();
             newCell.centralCell = temp;
 //            не правильное условие, координаты нужно брать не у элементов дерева
@@ -337,5 +341,21 @@ public class MazeTree {
 
     public void setGui(MazeGui gui) {
         mazeGui = gui;
+    }
+
+    public int getLabel() {
+        return label;
+    }
+
+    public void setLabel(int label) {
+        this.label = label;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
     }
 }
