@@ -3,6 +3,8 @@ package fourth_test;
 import fourth_test.gui.MazeGui;
 import fourth_test.maze_tree.MazeTree;
 
+import java.util.Scanner;
+
 /**
  * Created by bender on 30.01.16.
  */
@@ -14,6 +16,8 @@ public class Main {
             newMaze = gui.setMaze(newMaze);
             System.out.println("stop1");
             System.out.println("stop2");
+            Scanner scanner = new Scanner(System.in);
+            String temp = scanner.nextLine();
         } catch (InterruptedException ex) {
             System.out.println(ex.getMessage());
         }

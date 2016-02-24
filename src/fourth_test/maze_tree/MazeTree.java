@@ -358,4 +358,8 @@ public class MazeTree {
     public void setVisited(boolean visited) {
         this.visited = visited;
     }
+
+    public Path getCell() {
+        return cell;
+    }
 }

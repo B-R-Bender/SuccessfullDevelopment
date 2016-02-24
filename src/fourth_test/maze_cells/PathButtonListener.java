@@ -1,5 +1,6 @@
 package fourth_test.maze_cells;
 
+import fourth_test.MazeDSearch;
 import fourth_test.MazeSearch;
 import fourth_test.maze_tree.MazeTree;
 
@@ -12,9 +13,30 @@ import java.awt.event.ActionListener;
  */
 class PathButtonListener implements ActionListener {
 
-    private static MazeSearch<MazeTree> search = new MazeSearch<>(null, null);
+//    private static MazeSearch<MazeTree> search = new MazeSearch<>(null, null);
+    MazeDSearch search;
     private static int count;
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Path temp = (Path)e.getSource();
+        temp.setBackground(Color.ORANGE);
+//        set start maze cell
+        if (count >= 2 && count % 2 == 0) {
+            search.clearTrace();
+            search.setDefaultLabel(temp.getAssociatedMazeTreeCell());
+            search = null;
+        }
+        if (search == null) {
+            search = new MazeDSearch(temp.getAssociatedMazeTreeCell());
+            count++;
+//            set end maze cell and calculate path
+        } else {
+            search.searchPath(temp.getAssociatedMazeTreeCell());
+            count++;
+        }
+    }
+/*
     @Override
     public void actionPerformed(ActionEvent e) {
         Path temp = (Path)e.getSource();
@@ -37,5 +59,6 @@ class PathButtonListener implements ActionListener {
             count++;
         }
     }
+*/
 }
 

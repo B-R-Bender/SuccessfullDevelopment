@@ -58,7 +58,7 @@ public class MazeGui {
 
     public MazeTree setMaze (MazeTree tree) throws InterruptedException {
         tree.setGui(this);
-        tree = tree.createMaze(tree, 150, MazeConstants.UP);
+        tree = tree.createMaze(tree, 50, MazeConstants.UP);
 //        tree.printMaze(tree);
         this.fillWalls();
         this.mainMazePanel.updateUI();
