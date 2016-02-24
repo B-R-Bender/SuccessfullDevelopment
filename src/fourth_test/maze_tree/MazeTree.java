@@ -6,6 +6,7 @@ import fourth_test.maze_cells.Wall;
 import fourth_test.gui.MazeGui;
 import fourth_test.maze_cells.Path;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -23,6 +24,7 @@ public class MazeTree {
     String nodeOrientation;
     boolean visited;
     int label;
+    static ArrayList<MazeTree> tree = new ArrayList<>();
 
     static MazeGui mazeGui;
 
@@ -54,14 +56,13 @@ public class MazeTree {
             if (!isPanelUsed(x, y) & defineAdjacentPassages(x, y, orientation)) {
                 newCell.cell = new Path(x + " " + y, x, y, newCell);
                 setPanelUsed(x, y);
-//                System.out.println(x + " " + y);
                 generateNext(newCell, orientation, longestPath);
             } else {
                 newCell = null;
             }
-//            mazeGui.getMainMazePanel().repaint();
-//            here insert method to check for connections
+//            method for connect cells
             connectCells(newCell, orientation, x, y);
+            tree.add(newCell);
             return newCell;
         }
         return null;
@@ -76,10 +77,6 @@ public class MazeTree {
                 && ((Path) tempPanel.getComponent(0)).getAssociatedMazeTreeCell().parentCell != newCell) {
             MazeTree temp = ((Path) tempPanel.getComponent(0)).getAssociatedMazeTreeCell();
             newCell.centralCell = temp;
-//            не правильное условие, координаты нужно брать не у элементов дерева
-
-//            String left, right;
-//            left = right = "";
 
             switch (temp.nodeOrientation) {
                 case MazeConstants.HORIZONTAL_PLUS:
@@ -103,12 +100,7 @@ public class MazeTree {
                     if (temp.positionY - 1 == newCell.positionY) temp.centralCell = newCell;
                     break;
             }
-//            ((Path) tempPanel.getComponent(0)).setAssociatedMazeTreeCell(temp);
         }
-    }
-
-    private boolean isPanelPath(int x, int y) {
-        return mazeGui.getPanels()[x][y].isPath();
     }
 
     private void generateNext(MazeTree baseCell, String orientation, int longestPath) throws InterruptedException {
@@ -173,83 +165,65 @@ public class MazeTree {
         int y = modifyY(cell, baseCell.positionY);
 
         switch (direction) {
-            case "horizontal+":
+            case MazeConstants.HORIZONTAL_PLUS:
                 switch (cell) {
-                    case "up":
-                        baseCell.leftCell = null;
-                        wall = new Wall(x, y);
-                        setPanelUsed(x, y);
+                    case MazeConstants.UP:
+                        setWall(baseCell.leftCell, x, y);
                         break;
-                    case "horizontal+":
-                        baseCell.centralCell = null;
-                        wall = new Wall(x, y);
-                        setPanelUsed(x, y);
+                    case MazeConstants.HORIZONTAL_PLUS:
+                        setWall(baseCell.centralCell, x, y);
                         break;
-                    case "down":
-                        baseCell.rightCell = null;
-                        wall = new Wall(x, y);
-                        setPanelUsed(x, y);
+                    case MazeConstants.DOWN:
+                        setWall(baseCell.rightCell, x, y);
                         break;
                 }
                 break;
-            case "horizontal-":
+            case MazeConstants.HORIZONTAL_MINUS:
                 switch (cell) {
-                    case "down":
-                        baseCell.leftCell = null;
-                        wall = new Wall(x, y);
-                        setPanelUsed(x, y);
+                    case MazeConstants.DOWN:
+                        setWall(baseCell.leftCell, x, y);
                         break;
-                    case "horizontal-":
-                        baseCell.centralCell = null;
-                        wall = new Wall(x, y);
-                        setPanelUsed(x, y);
+                    case MazeConstants.HORIZONTAL_MINUS:
+                        setWall(baseCell.centralCell, x, y);
                         break;
-                    case "up":
-                        baseCell.rightCell = null;
-                        wall = new Wall(x, y);
-                        setPanelUsed(x, y);
+                    case MazeConstants.UP:
+                        setWall(baseCell.rightCell, x, y);
                         break;
                 }
                 break;
-            case "up":
+            case MazeConstants.UP:
                 switch (cell) {
-                    case "horizontal-":
-                        baseCell.leftCell = null;
-                        wall = new Wall(x, y);
-                        setPanelUsed(x, y);
+                    case MazeConstants.HORIZONTAL_MINUS:
+                        setWall(baseCell.leftCell, x, y);
                         break;
-                    case "up":
-                        baseCell.centralCell = null;
-                        wall = new Wall(x, y);
-                        setPanelUsed(x, y);
+                    case MazeConstants.UP:
+                        setWall(baseCell.centralCell, x, y);
                         break;
-                    case "horizontal+":
-                        baseCell.rightCell = null;
-                        wall = new Wall(x, y);
-                        setPanelUsed(x, y);
+                    case MazeConstants.HORIZONTAL_PLUS:
+                        setWall(baseCell.rightCell, x, y);
                         break;
                 }
                 break;
-            case "down":
+            case MazeConstants.DOWN:
                 switch (cell) {
-                    case "horizontal+":
-                        baseCell.leftCell = null;
-                        wall = new Wall(x, y);
-                        setPanelUsed(x, y);
+                    case MazeConstants.HORIZONTAL_PLUS:
+                        setWall(baseCell.leftCell, x, y);
                         break;
-                    case "down":
-                        baseCell.centralCell = null;
-                        wall = new Wall(x, y);
-                        setPanelUsed(x, y);
+                    case MazeConstants.DOWN:
+                        setWall(baseCell.centralCell, x, y);
                         break;
-                    case "horizontal-":
-                        baseCell.rightCell = null;
-                        wall = new Wall(x, y);
-                        setPanelUsed(x, y);
+                    case MazeConstants.HORIZONTAL_MINUS:
+                        setWall(baseCell.rightCell, x, y);
                         break;
                 }
                 break;
         }
+    }
+
+    private void setWall (MazeTree cell, int x, int y) {
+        cell = null;
+        wall = new Wall(x, y);
+        setPanelUsed(x, y);
     }
 
     private int modifyX(String orientation, int x) {
@@ -278,9 +252,9 @@ public class MazeTree {
 
     public String printMaze (MazeTree maze) {
         return maze != null ? "maze cell x = " + maze.positionX
-                                        + " y = " + maze.positionY + "\n -->>left " + printMaze(maze.leftCell)
-                                        + "\n -->>center " + printMaze(maze.centralCell)
-                                        + "\n -->>right " + printMaze(maze.rightCell): "wall";
+                + " y = " + maze.positionY + "\n -->>left " + printMaze(maze.leftCell)
+                + "\n -->>center " + printMaze(maze.centralCell)
+                + "\n -->>right " + printMaze(maze.rightCell): "wall";
     }
 
     public int getPositionX() {
@@ -361,5 +335,19 @@ public class MazeTree {
 
     public Path getCell() {
         return cell;
+    }
+
+    public void setDefaultVisited () {
+        for (MazeTree node :
+                tree) {
+            if (node != null) node.visited = false;
+        }
+    }
+
+    public void setDefaultLabel () {
+        for (MazeTree node :
+                tree) {
+            if (node != null) node.label = Integer.MAX_VALUE;
+        }
     }
 }

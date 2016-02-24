@@ -1,6 +1,7 @@
 package fourth_test;
 
 import fourth_test.gui.MazeGui;
+import fourth_test.maze_cells.PathButtonListener;
 import fourth_test.maze_tree.MazeTree;
 
 import java.util.Scanner;
@@ -14,23 +15,10 @@ public class Main {
             MazeGui gui = new MazeGui(50, 50);
             MazeTree newMaze = new MazeTree(null, null, null, null, 4, 0);
             newMaze = gui.setMaze(newMaze);
+            PathButtonListener.setTree(newMaze);
             System.out.println("stop1");
-            System.out.println("stop2");
-            Scanner scanner = new Scanner(System.in);
-            String temp = scanner.nextLine();
         } catch (InterruptedException ex) {
             System.out.println(ex.getMessage());
         }
-/*
-        try {
-            MazeTree newMaze = new MazeTree(null, null, null, null, 4, 0);
-            newMaze = newMaze.createMaze(newMaze, 150, MazeConstants.UP);
-            newMaze.fillWalls();
-            MazeTree.getMazeGui().getMainMazePanel().updateUI();
-            System.out.println(newMaze.printMaze(newMaze));
-        } catch (Exception e) {
-            System.out.println("Unpredicteble exeption" + e.getMessage());
-        }
-*/
     }
 }

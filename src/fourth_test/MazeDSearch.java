@@ -3,6 +3,7 @@ package fourth_test;
 import fourth_test.constants.MazeConstants;
 import fourth_test.maze_tree.MazeTree;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 /**
@@ -11,11 +12,12 @@ import java.util.Stack;
 public class MazeDSearch {
     MazeTree tree;
     Stack<MazeTree> trace;
-    Stack<MazeTree> temp;
+    static ArrayList<MazeTree> foundPath = new ArrayList<>();
 
     public MazeDSearch(MazeTree tree) {
         this.tree = tree;
         trace = new Stack<MazeTree>();
+//        foundPath = new ArrayList<>();
         tree.setLabel(0);
         dijkstraAlgorithmModified(tree);
     }
@@ -65,7 +67,7 @@ public class MazeDSearch {
 
     private void setNodeLabel(MazeTree cell, int newLabel) {
         if (cell != null /*&& !cell.isVisited()*/ && newLabel < cell.getLabel())
-        cell.setLabel(newLabel);
+            cell.setLabel(newLabel);
     }
 
     public void searchPath(MazeTree endNode) {
@@ -77,8 +79,9 @@ public class MazeDSearch {
             chooseNext(label, endNode.getCentralCell());
             chooseNext(label, endNode.getRightCell());
         } else {
-            temp = ((Stack<MazeTree>) trace.clone());
+            trace.push(endNode);
             while (!trace.empty()) {
+                foundPath.add(trace.peek());
                 trace.pop().getCell().setBackground(MazeConstants.SEARCH_PATH_COLOR);
             }
         }
@@ -90,19 +93,10 @@ public class MazeDSearch {
         }
     }
 
-    public void clearTrace () {
-//        Stack<MazeTree> temp = trace;
-        while (!temp.empty()) {
-            temp.pop().getCell().setBackground(MazeConstants.PATH_COLOR);
+    public void clearFoundPath () {
+        for (MazeTree node : foundPath) {
+            node.getCell().setBackground(MazeConstants.PATH_COLOR);
         }
-    }
-
-    public void setDefaultLabel (MazeTree node) {
-        node.setVisited(true);
-        node.setLabel(Integer.MAX_VALUE);
-        if (node.getParentCell() != null && !node.isVisited()) setDefaultLabel(node.getParentCell());
-        if (node.getCentralCell() != null && !node.isVisited()) setDefaultLabel(node.getCentralCell());
-        if (node.getLeftCell() != null && !node.isVisited()) setDefaultLabel(node.getLeftCell());
-        if (node.getRightCell() != null && !node.isVisited()) setDefaultLabel(node.getRightCell());
+        foundPath.clear();
     }
 }

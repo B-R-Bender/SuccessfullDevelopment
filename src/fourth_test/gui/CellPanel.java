@@ -17,8 +17,6 @@ public class CellPanel extends JPanel {
 
     public void setUsed(boolean used) {
         this.used = used;
-//        this.setLayout(new BorderLayout());
-//        this.setBackground(Color.CYAN);
     }
 
     public boolean isPath() {
